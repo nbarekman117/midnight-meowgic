@@ -16,7 +16,6 @@ class Bat(GameObject):
         self.animation_speed = 5
         self.animation_counter = 0
 
-    # Updated move method signature
     def move(self, dx=0, dy=0):
         self.x += dx
 
