@@ -5,7 +5,7 @@ import pygame
 
 class Ghost(GameObject):
     def __init__(self, x, y):
-        GHOST_FRAME_WIDTH = 256 // 4  # 4 frames across, 60px height
+        GHOST_FRAME_WIDTH = 256 // 4
         GHOST_FRAME_HEIGHT = 60
 
         self.frames = [
@@ -17,7 +17,6 @@ class Ghost(GameObject):
         self.animation_speed = 6
         self.animation_counter = 0
 
-    # Updated move method signature
     def move(self, dx=0, dy=0):
         self.x += dx
 
