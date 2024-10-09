@@ -20,7 +20,7 @@ class Player(GameObject):
         self.y += dy
 
     def shoot(self):
-        self.sound_manager.play_laser_sound()  # Play laser sound using SoundManager
+        self.sound_manager.play_laser_sound()
         return Laser(self.x + self.get_width(), self.y + self.get_height() // 2 - LASER_HEIGHT // 2)
 
     def draw_health(self, screen):
@@ -32,9 +32,9 @@ class Player(GameObject):
         self.animation_counter += 1
         if self.animation_counter >= self.animation_speed:
             self.animation_counter = 0
-            self.current_frame = (self.current_frame + 1) % len(self.frames)  # Cycle through frames
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
             self.img = self.frames[self.current_frame]
 
     def draw(self, screen):
-        self.update_animation()  # Update animation before drawing
+        self.update_animation()
         super().draw(screen)
