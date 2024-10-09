@@ -12,7 +12,7 @@ class Laser(GameObject):
 
     def move(self, dx=None):
         self.x += dx if dx is not None else self.vel
-        self.rect.topleft = (self.x, self.y)  # Update the rect position
+        self.rect.topleft = (self.x, self.y)
 
         # Update the frame index for animation
         self.frame_counter += 1
