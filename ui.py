@@ -36,7 +36,6 @@ class HealthBar:
         self.current_health = max(0, self.current_health - damage)
 
     def draw(self, screen):
-        # Health bar dimensions
         bar_length = 200
         bar_height = 20
         health_ratio = self.current_health / self.max_health
