@@ -5,7 +5,7 @@ import pygame
 
 class Monster(GameObject):
     def __init__(self, x, y):
-        MONSTER_FRAME_WIDTH = 1000 // 4  # 4 frames across, each frame is 250px wide
+        MONSTER_FRAME_WIDTH = 1000 // 4 
         MONSTER_FRAME_HEIGHT = 250
 
         self.frames = [
@@ -19,7 +19,6 @@ class Monster(GameObject):
         self.animation_speed = 9
         self.animation_counter = 0
 
-    # Updated move method signature
     def move(self, dx=0, dy=0):
         self.x += dx
 
