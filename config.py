@@ -1,35 +1,64 @@
 import pygame
-from constants import *
+from constants import WHITE, FONT_PATH
 
 
-# Helper function to load and resize images
-def load_and_resize_image(path, width, height):
-    img = pygame.image.load(path)
-    return pygame.transform.scale(img, (width, height))
+# Load the custom font or fallback to system font
+def load_font(size):
+    try:
+        return pygame.font.Font(FONT_PATH, size)
+    except FileNotFoundError:
+        return pygame.font.Font(None, size)
 
 
-# Load Player sprite sheet and extract frames
-PLAYER_SPRITE_SHEET = pygame.image.load(PLAYER_IMAGE_PATH)
-PLAYER_FRAMES = [
-    PLAYER_SPRITE_SHEET.subsurface(pygame.Rect(i * PLAYER_FRAME_WIDTH, 0, PLAYER_FRAME_WIDTH, PLAYER_FRAME_HEIGHT))
-    for i in range(3)  # 3 frames across
-]
-# Load MagicBall sprite sheet and extract frames
-MAGICBALL_SPRITE_SHEET = pygame.image.load(MAGICBALL_SPRITE_PATH)
-MAGICBALL_FRAMES = [
-    MAGICBALL_SPRITE_SHEET.subsurface(pygame.Rect(col * LASER_WIDTH, row * LASER_HEIGHT, LASER_WIDTH, LASER_HEIGHT))
-    for row in range(2) for col in range(4)
-]
+# Class to display the score
+class Score:
+    def __init__(self):
+        self.value = 0
 
-# Load Backgrounds
-BACKGROUND1_IMG = load_and_resize_image(BACKGROUND1_PATH, WIDTH, HEIGHT)
-BACKGROUND2_IMG = load_and_resize_image(BACKGROUND2_PATH, WIDTH, HEIGHT)
-BACKGROUND3_IMG = load_and_resize_image(BACKGROUND3_PATH, WIDTH, HEIGHT)
+    def update(self, points):
+        self.value += points
 
-# Load Enemy Bat sprite sheet and Explosion sprite sheet
-BAT_SPRITE_SHEET = pygame.image.load(BAT_SPRITE_PATH)
-EXPLOSION_SPRITE_SHEET = pygame.image.load(EXPLOSION_SPRITE_PATH)
+    def draw(self, screen):
+        font = load_font(30)
+        score_text = font.render(f"Score: {self.value}", True, WHITE)
+        screen.blit(score_text, (10, 10))
 
-# Load Ghost and Monster sprite sheets
-GHOST_SPRITE_SHEET = load_and_resize_image(GHOST_SPRITE_PATH, 256, GHOST_FRAME_HEIGHT)
-MONSTER_SPRITE_SHEET = load_and_resize_image(MONSTER_SPRITE_PATH, 1000, 250)
+
+# Class to display the health bar
+class HealthBar:
+    def __init__(self, max_health, screen_width, screen_height):
+        self.max_health = max_health
+        self.current_health = max_health
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+
+    def take_damage(self, damage):
+        self.current_health = max(0, self.current_health - damage)
+
+    def draw(self, screen):
+        # Health bar dimensions
+        bar_length = 200
+        bar_height = 20
+        health_ratio = self.current_health / self.max_health
+
+        bar_x = 100
+        bar_y = self.screen_height - bar_height - 20
+
+        # Draw background (red for lost health)
+        pygame.draw.rect(screen, (255, 0, 0), (bar_x, bar_y, bar_length, bar_height))
+
+        # Draw the remaining health (green)
+        pygame.draw.rect(screen, (0, 255, 0), (bar_x, bar_y, bar_length * health_ratio, bar_height))
+
+        # Render the "Health" label
+        font = load_font(24)
+        health_label_text = font.render("Health", True, WHITE)
+        screen.blit(health_label_text, (10, bar_y))
+
+
+# Function to draw level number
+def draw_level_number(screen, level):
+    font = load_font(36)
+    level_text = font.render(f"Level {level}", True, WHITE)
+    text_rect = level_text.get_rect(center=(screen.get_width() // 2, 20))
+    screen.blit(level_text, text_rect)
