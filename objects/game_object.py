@@ -6,12 +6,12 @@ class GameObject:
         self.x = x
         self.y = y
         self.img = img
-        self.mask = pygame.mask.from_surface(self.img)  # Use mask for precise collision detection
+        self.mask = pygame.mask.from_surface(self.img)
         self.rect = self.img.get_rect(topleft=(self.x, self.y))
 
     def draw(self, screen):
         screen.blit(self.img, (self.x, self.y))
-        self.rect.topleft = (self.x, self.y)  # Update the rect position
+        self.rect.topleft = (self.x, self.y)
 
     def get_width(self):
         return self.img.get_width()
